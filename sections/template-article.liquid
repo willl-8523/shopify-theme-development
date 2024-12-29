@@ -1,0 +1,13 @@
+<h1>{{ article.title }}</h1>
+
+<small>{{ article.author }}</small>
+
+<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+  {{ article.published_at | date: '%Y-%m-%d' }}
+</time>
+
+<img 
+  src="{{ article.image | image_url: width: 480 }}" alt="{{ article.image.alt }}" width="auto" height="auto"
+/>
+
+<div>{{ article.content }}</div>
