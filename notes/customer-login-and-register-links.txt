@@ -1,0 +1,5 @@
+Avant de pouvoir masquer et afficher les liens de connexion et d'enregistrement des clients
+  -> Couper le terminal Shopify CLI  
+  -> Se rendre dans https://admin.shopify.com/store/hustler-development-online-store/settings/customer_accounts
+  -> Ensuite décocher "Afficher les liens de connexion"
+  -> Relancer le terminal
