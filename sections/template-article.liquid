@@ -89,7 +89,7 @@
     {% endif %}
   </div>
 
-  <!-- FORM TO POST ARTICLE BLOG -->
+<!-- FORM TO POST ARTICLE BLOG -->
   <div id="comment_form" class="mb-8">
     {% form 'new_comment', article %}
       <div class="flex-1 mx-auto items-center justify-center max-w-4xl px-4">
@@ -188,6 +188,35 @@
     {% endform %}
   </div>
 {% endif %}
+
+<!-- SEO WITH JSON-LD STRUCTURED SCHEMA -->
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ article.title | json }},
+    "articleBody": {{ article.content | strip_html | json }},
+    {% if article.excerpt != blank %}
+      "description": {{ article.excerpt | strip_html | json }},
+    {% endif %}
+    {% if article.image %}
+      "image": [
+        {{ article.image | image_url: width: 240, height: 240 | prepend: 'https:' | json }} 
+      ],
+    {% endif %}
+    "datePublished": {{ article.published_at | date: format: "default" | json }},
+    "dateCreated": {{ article.created_at | date: format: "default" | json }},
+    "author": {
+      "@type": "Person",
+      "name": {{ article.author | json }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }}
+    }
+  }
+</script>
+
 
 {% schema %}
   {
