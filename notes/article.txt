@@ -1,4 +1,4 @@
-Créer un article de blog:
+CREER UN ARTICLE DE BLOG:
   -> https://admin.shopify.com/store/hustler-development-online-store/articles
 
 Schema des artcilces:
@@ -23,3 +23,10 @@ Schema des artcilces:
         "limit": 2
       }
    ] Dans ce block je pourrais ajouter 2 fois l'element titre
+
+AJOUTER LES COMMENTAIRES A CETTE ARTICLE/
+  -> Aller sur https://admin.shopify.com/store/hustler-development-online-store/articles
+  -> Cliquer le bouton "Gerer les blogs"
+  -> Choisir le blog 
+  -> Selectionner "Les commentaires sont autorisés et automatiquement publiés"
+  -> Enregistrer
