@@ -1,2 +1,25 @@
 Créer un article de blog:
   -> https://admin.shopify.com/store/hustler-development-online-store/articles
+
+Schema des artcilces:
+  -> Lorsque j'ajoute un block je dois donner les elements du block
+    "blocks": [
+      {
+        "type": "article_title",
+        "name": "Title",
+        "limit": 1
+      },
+      {
+        "type": "article_author",
+        "name": "Author",
+        "limit": 1
+      },
+   ] ce block aura 2 elements : titre et auteur
+   - limit 1 donne le nombre de fois que je pourrais ajouter un element de ce block 
+   "blocks": [
+      {
+        "type": "article_title",
+        "name": "Title",
+        "limit": 2
+      }
+   ] Dans ce block je pourrais ajouter 2 fois l'element titre
