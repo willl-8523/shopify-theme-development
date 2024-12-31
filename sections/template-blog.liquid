@@ -42,6 +42,11 @@
         {% endfor %}
       </div>
     </div>
+
+    <!-- PAGINATION -->
+    <div class="max-w-6xl">
+      {% render 'pagination', pagination: paginate %}
+    </div>
   {% endpaginate %}
 </div>
 
