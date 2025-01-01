@@ -1,0 +1,4 @@
+Pour passer une commande test pour les magasins de développement il faut:
+ -> Se rendre sur ce lien: https://admin.shopify.com/store/hustler-development-online-store/settings/payments
+ -> Cliquer sur "Activez le fournisseur de paiement de test"
+ -> Choisir le fournisseur de test "Bogus (pour les tests)" et activer
