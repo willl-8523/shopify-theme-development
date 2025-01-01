@@ -1,0 +1,9 @@
+Pour ajouter un produit se rendre sur:
+  -> https://admin.shopify.com/store/hustler-development-online-store/products?selectedView=all
+  -> Cliquer sur "Ajouter un produit"
+  -> Remplir le formulaire
+  -> Cliquer sur "enregistrer"
+
+Pour ajouter le nombre de produit en stock: 
+  -> https://admin.shopify.com/store/hustler-development-online-store/products/inventory?selectedColumns=VARIANT_NAME%2CSKU%2CUNAVAILABLE_QUANTITY%2CCOMMITTED_QUANTITY%2CAVAILABLE_QUANTITY%2CON_HAND_QUANTITY%2CINCOMING_QUANTITY&location_id=104812314967
+  -> Modifier le stock

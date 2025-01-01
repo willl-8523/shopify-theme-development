@@ -1,0 +1,6 @@
+Lorqu'on ajoute un lien, on peut le mettre en dur:
+  -> <a href="/cart">
+Ou en dynamique
+  -> <a href="{{ routes.object_attributes }}">
+    "routes" est un object qu'on utilise pour generer une url dynamique sur notre
+    StoreFront Shopify. comme cela si shopify met à jour l'url exp: ('/cart' => '/paiement'), l'objet routes le mettra automatiquement à jour
