@@ -1,0 +1,4 @@
+Pour céer une page:
+-> https://admin.shopify.com/store/hustler-development-online-store/pages
+-> Cliquez sur "Ajouter une page"
+-> Ensuite enregistrer
