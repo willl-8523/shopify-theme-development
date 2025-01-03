@@ -9,11 +9,13 @@
   .swiper-button-prev::after, .swiper-button-next::after { font-size: 20px; }
   .swiper-pagination { color: black; bottom: 0 !important; }
   .swiper-pagination-bullet-active { background: black !important; }
+  .product--information { height: fit-content; }
 </style>
 
 <div class="max-w-6xl mx-auto my-8">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <div class="product--medias">
+      <!-- DESKTOP MEDIA -->
       <div class="hidden md:block">
         {% for media in product.media %}
           <div class="h-100 overflow-hidden p-2">
@@ -22,6 +24,7 @@
         {% endfor %}
       </div>
 
+      <!-- MOBILE CAROUSEL MEDIA -->
       <div class="md:hidden">
         <div class="swiper h-[22rem]">
           <div class="swiper-wrapper">
@@ -42,7 +45,116 @@
       </div>
     </div>
 
-    <div class="product--information"></div>
+    <div class="product--information sticky top-5 p-3">
+      {% form 'product', product %}
+        <input type="hidden" 
+        name="id" 
+        value="{{ product.selected_or_first_available_variant.id }}"
+        >
+
+        <!-- PRODUCT VENDOR -->
+        <div class="my-3">
+          <span class="text-sm text-gray-500">{{ product.vendor }}</span>
+        </div>
+
+        <!-- PRODUCT TITLE -->
+        <div class="my-3">
+          <h1 class="text-3xl text-gray-900">{{ product.title }}</h1>
+        </div>
+
+        <!-- PRODUCT PRICE -->
+        <div class="my-3">
+          {% assign product_price = product.selected_or_first_available_variant %}
+          <span class="mr-1 text-base text-gray-500 line-through">
+            {{ product_price.compare_at_price | money }}
+          </span>
+          <span class="text-lg text-gray-900">
+            {{ product_price.price | money }}
+          </span>
+
+          {% if product_price.price < product_price.compare_at_price %}
+            {% assign compare_at_price = product_price.compare_at_price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
+            {% assign current_price = product_price.price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
+            {% assign reduction = compare_at_price | minus: current_price %}
+            {% assign reduction_percentage = reduction | divided_by: compare_at_price | times: 100 %}
+            <span class="p-1 text-sm font-bold bg-red-500 rounded text-white mx-2">
+              -{{ reduction_percentage | floor }}%
+            </span>
+          {% endif %}
+        </div>
+
+        <!-- PRODUCT VARIANTS -->
+        <div class="my-3">
+          {% unless product.has_only_default_variant %}
+            <div data-url="{{ product.url }}" data-section="{{ section.id }}">
+              {% for option in product.options_with_values %}
+                <label for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                  {{ option.name }}
+                </label>
+
+                <div class="my-2">
+                  <select 
+                    name="options[{{ option.name | escape }}]" 
+                    id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                    class="w-full border p-3"
+                  >
+                    {% for value in option.values %}
+                      <option 
+                        value="{{ value | escape }}"
+                        {% if option.selected_value == value %}
+                          selected="selected"
+                        {% endif %}
+                      >
+                        {{ value }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endfor %}
+            </div>
+          {% endunless %}
+        </div>
+
+        <!-- PRODUCT QUANTITY -->
+        <div class="my-3">
+          <label for="Quantity-{{ section.id }}">Quantity</label>
+
+          <div class="my-2">
+            <input 
+              type="number" 
+              name="quantity" 
+              id="Quantity-{{ section.id }}" 
+              value="1" 
+              min="1"
+              class="w-full border p-3"
+            >
+          </div>
+        </div>
+
+        <!-- PRODUCT DESCRIPTION -->
+        <div class="my-3">
+          <p class="text-gray-700"> {{ product.description }}</p>
+        </div>
+
+        <!-- ADD PRODUCT TO CART -->
+        <div class="my-3">
+          <button 
+            type="submit"
+            name="add"
+            class="w-full px-6 py-4 bg-gray-900 disabled:bg-gray-700 disabled:cursor-not-allowed text-white hover:bg-gray-700 rounded-sm my-2"
+            {% if product.selected_or_first_available_variant == false %}
+              disabled
+            {% endif %}
+          >
+            {% if product.selected_or_first_available_variant == false %}
+              Sold out
+            {% else %}
+              Add to cart
+            {% endif %}
+          </button>
+        </div>
+      {% endform %}
+    </div>
   </div>
 </div>
 
