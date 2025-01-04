@@ -1,5 +1,7 @@
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
+{% assign selected_variant = product.selected_or_first_available_variant %}
+
 <style>
   .swiper-button-prev, .swiper-button-next { 
     color: black; 
@@ -45,11 +47,11 @@
       </div>
     </div>
 
-    <div class="product--information sticky top-5 p-3">
+    <div class="product--information sticky top-5 p-2">
       {% form 'product', product %}
         <input type="hidden" 
-        name="id" 
-        value="{{ product.selected_or_first_available_variant.id }}"
+          name="id" 
+          value="{{ selected_variant.id }}"
         >
 
         <!-- PRODUCT VENDOR -->
@@ -64,17 +66,16 @@
 
         <!-- PRODUCT PRICE -->
         <div class="my-3">
-          {% assign product_price = product.selected_or_first_available_variant %}
           <span class="mr-1 text-base text-gray-500 line-through">
-            {{ product_price.compare_at_price | money }}
+            {{ selected_variant.compare_at_price | money }}
           </span>
           <span class="text-lg text-gray-900">
-            {{ product_price.price | money }}
+            {{ selected_variant.price | money }}
           </span>
 
-          {% if product_price.price < product_price.compare_at_price %}
-            {% assign compare_at_price = product_price.compare_at_price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
-            {% assign current_price = product_price.price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
+          {% if selected_variant.price < selected_variant.compare_at_price %}
+            {% assign compare_at_price = selected_variant.compare_at_price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
+            {% assign current_price = selected_variant.price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
             {% assign reduction = compare_at_price | minus: current_price %}
             {% assign reduction_percentage = reduction | divided_by: compare_at_price | times: 100 %}
             <span class="p-1 text-sm font-bold bg-red-500 rounded text-white mx-2">
@@ -142,11 +143,11 @@
             type="submit"
             name="add"
             class="w-full px-6 py-4 bg-gray-900 disabled:bg-gray-700 disabled:cursor-not-allowed text-white hover:bg-gray-700 rounded-sm my-2"
-            {% if product.selected_or_first_available_variant == false %}
+            {% if selected_variant.available == false %}
               disabled
             {% endif %}
           >
-            {% if product.selected_or_first_available_variant == false %}
+            {% if selected_variant.available == false %}
               Sold out
             {% else %}
               Add to cart
@@ -174,3 +175,46 @@
     }
   })
 </script>
+
+{% schema %}
+  {
+    "name": "Product",
+    "blocks": [
+      {
+        "type": "vendor",
+        "name": "Vendor",
+        "limit": 1
+      },
+      {
+        "type": "title",
+        "name": "Title",
+        "limit": 1
+      },
+      {
+        "type": "price",
+        "name": "Price",
+        "limit": 1
+      },
+      {
+        "type": "variant_selector",
+        "name": "Variant Selector",
+        "limit": 1
+      },
+      {
+        "type": "quantity",
+        "name": "Quantity",
+        "limit": 1
+      },
+      {
+        "type": "description",
+        "name": "Description",
+        "limit": 1
+      },
+      {
+        "type": "checkout_button",
+        "name": "Checkout Button",
+        "limit": 1
+      },
+    ]
+  }
+{% endschema %}
