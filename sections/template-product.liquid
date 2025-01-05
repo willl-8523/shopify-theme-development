@@ -54,106 +54,113 @@
           value="{{ selected_variant.id }}"
         >
 
-        <!-- PRODUCT VENDOR -->
-        <div class="my-3">
-          <span class="text-sm text-gray-500">{{ product.vendor }}</span>
-        </div>
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when "vendor" %}
+              <!-- PRODUCT VENDOR -->
+              <div class="my-3">
+                <span class="text-sm text-gray-500">{{ product.vendor }}</span>
+              </div>
+            {% when "title" %}
+              <!-- PRODUCT TITLE -->
+              <div class="my-3">
+                <h1 class="text-3xl text-gray-900">{{ product.title }}</h1>
+              </div>
+            {% when "price" %}
+              <!-- PRODUCT PRICE -->
+              <div class="my-3">
+                <span class="mr-1 text-base text-gray-500 line-through">
+                  {{ selected_variant.compare_at_price | money }}
+                </span>
+                <span class="text-lg text-gray-900">
+                  {{ selected_variant.price | money }}
+                </span>
 
-        <!-- PRODUCT TITLE -->
-        <div class="my-3">
-          <h1 class="text-3xl text-gray-900">{{ product.title }}</h1>
-        </div>
+                {% if selected_variant.price < selected_variant.compare_at_price %}
+                  {% assign compare_at_price = selected_variant.compare_at_price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
+                  {% assign current_price = selected_variant.price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
+                  {% assign reduction = compare_at_price | minus: current_price %}
+                  {% assign reduction_percentage = reduction | divided_by: compare_at_price | times: 100 %}
+                  <span class="p-1 text-sm font-bold bg-red-500 rounded text-white mx-2">
+                    -{{ reduction_percentage | floor }}%
+                  </span>
+                {% endif %}
+              </div>
+            {% when "variant_selector" %}
+              <!-- PRODUCT VARIANTS -->
+              <div class="my-3">
+                {% unless product.has_only_default_variant %}
+                  <div data-url="{{ product.url }}" data-section="{{ section.id }}">
+                    {% for option in product.options_with_values %}
+                      <label for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                        {{ option.name }}
+                      </label>
 
-        <!-- PRODUCT PRICE -->
-        <div class="my-3">
-          <span class="mr-1 text-base text-gray-500 line-through">
-            {{ selected_variant.compare_at_price | money }}
-          </span>
-          <span class="text-lg text-gray-900">
-            {{ selected_variant.price | money }}
-          </span>
-
-          {% if selected_variant.price < selected_variant.compare_at_price %}
-            {% assign compare_at_price = selected_variant.compare_at_price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
-            {% assign current_price = selected_variant.price | money | remove: '€' | remove: '$' | replace: ',', '.' %}
-            {% assign reduction = compare_at_price | minus: current_price %}
-            {% assign reduction_percentage = reduction | divided_by: compare_at_price | times: 100 %}
-            <span class="p-1 text-sm font-bold bg-red-500 rounded text-white mx-2">
-              -{{ reduction_percentage | floor }}%
-            </span>
-          {% endif %}
-        </div>
-
-        <!-- PRODUCT VARIANTS -->
-        <div class="my-3">
-          {% unless product.has_only_default_variant %}
-            <div data-url="{{ product.url }}" data-section="{{ section.id }}">
-              {% for option in product.options_with_values %}
-                <label for="Option-{{ section.id }}-{{ forloop.index0 }}">
-                  {{ option.name }}
-                </label>
+                      <div class="my-2">
+                        <select 
+                          name="options[{{ option.name | escape }}]" 
+                          id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                          class="w-full border p-3"
+                        >
+                          {% for value in option.values %}
+                            <option 
+                              value="{{ value | escape }}"
+                              {% if option.selected_value == value %}
+                                selected="selected"
+                              {% endif %}
+                            >
+                              {{ value }}
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endunless %}
+              </div>
+            {% when "quantity" %}
+              <!-- PRODUCT QUANTITY -->
+              <div class="my-3">
+                <label for="Quantity-{{ section.id }}">Quantity</label>
 
                 <div class="my-2">
-                  <select 
-                    name="options[{{ option.name | escape }}]" 
-                    id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                  <input 
+                    type="number" 
+                    name="quantity" 
+                    id="Quantity-{{ section.id }}" 
+                    value="1" 
+                    min="1"
                     class="w-full border p-3"
                   >
-                    {% for value in option.values %}
-                      <option 
-                        value="{{ value | escape }}"
-                        {% if option.selected_value == value %}
-                          selected="selected"
-                        {% endif %}
-                      >
-                        {{ value }}
-                      </option>
-                    {% endfor %}
-                  </select>
                 </div>
-              {% endfor %}
-            </div>
-          {% endunless %}
-        </div>
-
-        <!-- PRODUCT QUANTITY -->
-        <div class="my-3">
-          <label for="Quantity-{{ section.id }}">Quantity</label>
-
-          <div class="my-2">
-            <input 
-              type="number" 
-              name="quantity" 
-              id="Quantity-{{ section.id }}" 
-              value="1" 
-              min="1"
-              class="w-full border p-3"
-            >
-          </div>
-        </div>
-
-        <!-- PRODUCT DESCRIPTION -->
-        <div class="my-3">
-          <p class="text-gray-700"> {{ product.description }}</p>
-        </div>
-
-        <!-- ADD PRODUCT TO CART -->
-        <div class="my-3">
-          <button 
-            type="submit"
-            name="add"
-            class="w-full px-6 py-4 bg-gray-900 disabled:bg-gray-700 disabled:cursor-not-allowed text-white hover:bg-gray-700 rounded-sm my-2"
-            {% if selected_variant.available == false %}
-              disabled
-            {% endif %}
-          >
-            {% if selected_variant.available == false %}
-              Sold out
+              </div>
+            {% when "description" %}
+              <!-- PRODUCT DESCRIPTION -->
+              <div class="my-3">
+                <p class="text-gray-700"> {{ product.description }}</p>
+              </div>
+            {% when "checkout_buttons" %}
+              <!-- ADD PRODUCT TO CART -->
+              <div class="my-3">
+                <button 
+                  type="submit"
+                  name="add"
+                  class="w-full px-6 py-4 bg-gray-900 disabled:bg-gray-700 disabled:cursor-not-allowed text-white hover:bg-gray-700 rounded-sm my-2"
+                  {% if selected_variant.available == false %}
+                    disabled
+                  {% endif %}
+                >
+                  {% if selected_variant.available == false %}
+                    Sold out
+                  {% else %}
+                    Add to cart
+                  {% endif %}
+                </button>
+              </div>
             {% else %}
-              Add to cart
-            {% endif %}
-          </button>
-        </div>
+          {% endcase %}
+          
+        {% endfor %}
       {% endform %}
     </div>
   </div>
@@ -211,8 +218,8 @@
         "limit": 1
       },
       {
-        "type": "checkout_button",
-        "name": "Checkout Button",
+        "type": "checkout_buttons",
+        "name": "Checkout Buttons",
         "limit": 1
       },
     ]
