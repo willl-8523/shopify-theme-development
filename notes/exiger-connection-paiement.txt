@@ -1,0 +1,3 @@
+Pour exiger que les clients soient connectés pour pouvoir payer il faut:
+  -> Se rendre sur https://admin.shopify.com/store/hustler-development-online-store/settings/checkout
+  -> Cocher la case "Exiger que les clients se connectent à leur compte avant de payer"
