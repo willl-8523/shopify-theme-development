@@ -1,0 +1,10 @@
+Il y'a 2 moyens de se connecter ou une creer un compte:
+  - Ancienne version: Les clients créent un compte et se connectent avec e-mail et mot de passe
+    Pour cela il faut activer l'ancienne version
+    -> https://admin.shopify.com/store/hustler-development-online-store/settings/customer_accounts
+    -> Cliquer sur "Ancienne version"
+  
+  - La nouvelle version: Les clients se connectent avec un code à usage unique envoyé à leur e-mail
+    (pas de mot de passe)
+    -> https://admin.shopify.com/store/hustler-development-online-store/settings/customer_accounts
+    -> Cliquer sur "Compte clients"
