@@ -1,0 +1,7 @@
+Pour ajouter une commande se rendre sur:
+  -> https://admin.shopify.com/store/hustler-development-online-store/orders
+  -> Cliquer sur "Créer une commande"
+  -> Rechercher le produit et ajouter le
+  -> Rechercher un client
+  -> Sur "percevoir le paiement" choisir "marquer comme payé"
+  -> Ensuite cliquer sur "Créer une commande"
