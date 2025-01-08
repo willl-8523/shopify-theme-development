@@ -99,7 +99,7 @@
     </div>
 
       <!-- MOBILE MENU -->
-    <template x-if=true>
+    <template x-if="true">
       <div
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 transform -translate-y-4"
@@ -181,22 +181,24 @@
   </div>
 
   <!-- SEARCH-BAR -->
-  <div x-show="searchBarOpen" class="absolute top-0 w-full bg-white border">
-    <!-- CLOSE SEARCH-BAR BUTTON -->
-    <button x-on:click="searchBarOpen = false" type="button" class="absolute top-0 right-0 mr-5 mt-5 text-gray-500">
-      {% render 'icon-close' %}
-    </button>
-    <div class="h-40 flex justify-center items-center">
-      <form action="{{ routes.search_url }}" method="get" class="flex-auto">
-        <div class="relative text-gray-500 px-10 border">
-          <input type="search" name="q" placeholder="Search" class="w-full bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none">
-          <button type="submit" class="absolute right-0 top-0 mt-2 mr-2 md:mr-20 bg-white">
-            {% render 'icon-search' %}
-          </button>
-        </div>
-      </form>
+  <template x-if=true>
+    <div x-show="searchBarOpen" class="absolute top-0 w-full bg-white border">
+      <!-- CLOSE SEARCH-BAR BUTTON -->
+      <button x-on:click="searchBarOpen = false" type="button" class="absolute top-0 right-0 mr-5 mt-5 text-gray-500">
+        {% render 'icon-close' %}
+      </button>
+      <div class="h-40 flex justify-center items-center">
+        <form action="{{ routes.search_url }}" method="get" class="flex-auto">
+          <div class="relative text-gray-500 px-10 border">
+            <input type="search" name="q" placeholder="Search" class="w-full bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none">
+            <button type="submit" class="absolute right-0 top-0 mt-2 mr-2 md:mr-20 bg-white">
+              {% render 'icon-search' %}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
+  </template>
 </div>
 
 {% schema %}
