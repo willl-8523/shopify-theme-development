@@ -1,0 +1,12 @@
+Fulfillment => traiter les articles
+
+Pour traiter une commande: 
+  -> Se rendre sur https://admin.shopify.com/storehustler-development-online-store/orders
+  -> Choisir la commande à traiter
+  -> Cliquer sur "Traiter les articles"
+  -> Modifier les articles qu'on souhaite traiter
+  -> Cliquer sur "Traiter les articles"
+
+Du coup sur la commande qu'on a traité on aura
+  -> Les articles non traitées
+  -> Les articles traitées
